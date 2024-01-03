@@ -15,6 +15,14 @@ class _BannerScreenState extends State<BannerScreen> {
   WebViewController? _webViewController;
 
   @override
+  void dispose() {
+    _webViewController?.clearCache();
+    _webViewController = null;
+
+    super.dispose();
+  }
+
+  @override
   void initState() {
     var url = widget.url;
     _webViewController = WebViewController()
@@ -72,16 +80,28 @@ class _BannerScreenState extends State<BannerScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         bottom: false,
-        child: PopScope(
-            canPop: false,
-            onPopInvoked: (bool didPop) async {
-              if (didPop) {
-                return;
-              }
-              if (await goBack() && context.mounted) {
-                Navigator.pop(context);
-              }
-            },
-            child: WebViewWidget(controller: _webViewController!)));
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () async {
+                if (await goBack() && context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ),
+          body: PopScope(
+              canPop: false,
+              onPopInvoked: (bool didPop) async {
+                if (didPop) {
+                  return;
+                }
+                if (await goBack() && context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: WebViewWidget(controller: _webViewController!)),
+        ));
   }
 }

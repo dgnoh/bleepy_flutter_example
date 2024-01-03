@@ -1,6 +1,7 @@
 import 'package:bleepy_flutter_example/screens/banner_screen.dart';
 import 'package:bleepy_flutter_example/screens/bleepy_screen.dart';
 import 'package:bleepy_flutter_example/screens/home_screen.dart';
+import 'package:bleepy_flutter_example/screens/img_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,12 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Bleepy',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
       onGenerateRoute: (settings) {
         if (settings.name == '/banner') {
           final args = settings.arguments as Map<String, dynamic>;
@@ -28,16 +30,24 @@ class MyApp extends StatelessWidget {
               return BannerScreen(url: args['url']);
             },
           );
+        } else if (settings.name == '/imgpage') {
+          final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (context) {
+              return ImgScreen(userkey: args['userkey']);
+            },
+          );
         } else if (settings.name == '/home') {
           return MaterialPageRoute(
             builder: (context) {
-              return const HomeScreen();
+              return HomeScreen();
             },
           );
         } else if (settings.name == '/bleepy') {
+          final args = settings.arguments as Map<String, dynamic>;
           return MaterialPageRoute(
             builder: (context) {
-              return const BleepyLauncherScreen();
+              return BleepyLauncherScreen(launcherUrl: args['launcherUrl']);
             },
           );
         }

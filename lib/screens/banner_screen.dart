@@ -14,17 +14,21 @@ class BannerScreen extends StatefulWidget {
 class _BannerScreenState extends State<BannerScreen> {
   WebViewController? _webViewController;
 
-  @override
-  void dispose() {
-    _webViewController?.clearCache();
-    _webViewController = null;
-
-    super.dispose();
+  String ensureTrailingSlash(String url) {
+    if (!url.endsWith('/')) {
+      return url + '/';
+    }
+    return url;
   }
 
   @override
   void initState() {
-    var url = widget.url;
+
+    //
+    // print("URL before processing: ${widget.url}");
+    // String target = ensureTrailingSlash(widget.url);
+    // print("URL after processing: $target");
+
     _webViewController = WebViewController()
       ..addJavaScriptChannel(
         'Toaster',
@@ -53,6 +57,7 @@ class _BannerScreenState extends State<BannerScreen> {
       ..enableZoom(false)
       ..loadRequest(Uri.parse(widget.url));
 
+
     super.initState();
   }
 
@@ -74,6 +79,14 @@ class _BannerScreenState extends State<BannerScreen> {
     } else {
       return Future.value(true);
     }
+  }
+
+  @override
+  void dispose() {
+    _webViewController?.clearCache();
+    _webViewController = null;
+
+    super.dispose();
   }
 
   @override

@@ -37,14 +37,14 @@ class _ImgScreenState extends State<ImgScreen> {
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/bg_sample.png'),
+                      image: AssetImage('assets/images/ios_bg.png'),
                       fit: BoxFit.fill,
                     ),
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.45,
-                  left: MediaQuery.of(context).size.width * 0.17,
+                  top: MediaQuery.of(context).size.height * 0.65,
+                  left: MediaQuery.of(context).size.width * 0.40,
                   child: Container(
                     width: 80,
                     height: 100,
@@ -54,7 +54,7 @@ class _ImgScreenState extends State<ImgScreen> {
                         Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: 'https://launcher.bleepy.net?userKey=${widget.userkey}&secretKey=5aa50b0b7a815152a3cb7516f414bf5f6a1c99b8da6129763d1038441907cafd&platform=flutter'),
+                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: 'https://stg-launcher.bleepy.net?userKey=${widget.userkey}&secretKey=4016743cb708ad820c588a15283ec4def587a5f50865581eae68417200e016a8&platform=flutter&cycle=0'),
                               transitionDuration: const Duration(seconds: 0),
                             )
                         );
@@ -66,8 +66,8 @@ class _ImgScreenState extends State<ImgScreen> {
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.45,
-                  right: MediaQuery.of(context).size.width * 0.26,
+                  top: MediaQuery.of(context).size.height * 0.65,
+                  right: MediaQuery.of(context).size.width * 0.13,
                   child: Container(
                     width: 80,
                     height: 100,
@@ -77,7 +77,7 @@ class _ImgScreenState extends State<ImgScreen> {
                         Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: 'https://launcher.bleepy.net?userKey=${widget.userkey}&secretKey=12ba66af8a86ba7bdcc21203b4f346490ea822dd7e2226007d6b7cea99547575&platform=flutter'),
+                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: 'https://stg-launcher.bleepy.net?userKey=${widget.userkey}&secretKey=311737cc3e0602f9942be4ce133f6b3981991adcca2326c5bdf603f55c78a842&platform=flutter'),
                               transitionDuration: const Duration(seconds: 0),
                             )
                         );

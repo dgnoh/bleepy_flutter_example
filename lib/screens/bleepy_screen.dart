@@ -41,6 +41,7 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
 
           switch (key) {
             case "closeLauncher":
+
               closeLauncher();
               break;
 
@@ -83,14 +84,16 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
 
   @override
   void dispose() {
-    _webViewController?.clearCache();
-    _webViewController = null;
-
     super.dispose();
   }
 
 
-  void closeLauncher() {
+  Future<void> closeLauncher() async{
+    await _webViewController?.clearCache();
+    await _webViewController?.clearLocalStorage();
+    _webViewController?.runJavaScript('worker.terminate();');
+    _webViewController = null;
+
     Navigator.of(context).pop();
   }
 
@@ -99,6 +102,17 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
     final String? url = data['url'];
 
     getUrlInfo(url!);
+  }
+
+  String ensureTrailingSlash(String url) {
+    if (!url.endsWith('/')) {
+      late String targetUrl;
+      print('ensureTrailingSlash');
+      targetUrl = "$url/";
+      print(targetUrl);
+      return targetUrl;
+    }
+    return url;
   }
 
   void getUrlInfo(String url) {
@@ -119,14 +133,15 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
 
     // CustomScheme 객체 생성
     final CustomScheme data = CustomScheme(url: params['url']!);
-
+    String dataUrl = data.url.trim();
+    String targetUrl = ensureTrailingSlash(dataUrl);
     // 라우터 이동
     switch (type) {
       case "banner":
         Navigator.push(
             context,
             PageRouteBuilder(
-              pageBuilder: (context, animation1, animation2) => BannerScreen(url: data.url),
+              pageBuilder: (context, animation1, animation2) => BannerScreen(url: targetUrl),
               transitionDuration: const Duration(seconds: 0),
             )
         );

@@ -82,24 +82,14 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-
-  Future<void> closeLauncher() async{
-    await _webViewController?.clearCache();
-    await _webViewController?.clearLocalStorage();
-    _webViewController?.runJavaScript('worker.terminate();');
-    _webViewController = null;
-
+  void closeLauncher() {
     Navigator.of(context).pop();
   }
 
   void moveNavigation(JavaScriptMessage message) {
     final data = jsonDecode(message.message);
     final String? url = data['url'];
+    print('moveNavigation $url');
 
     getUrlInfo(url!);
   }
@@ -116,6 +106,7 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
   }
 
   void getUrlInfo(String url) {
+    print('getUrlInfo $url');
     final RegExp pattern =
         RegExp(r'^bleepy:\/\/([a-z0-9-_.]*)', caseSensitive: false);
     final RegExpMatch? match = pattern.firstMatch(url);
@@ -135,6 +126,7 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
     final CustomScheme data = CustomScheme(url: params['url']!);
     String dataUrl = data.url.trim();
     String targetUrl = ensureTrailingSlash(dataUrl);
+    print('targetUrl $targetUrl');
     // 라우터 이동
     switch (type) {
       case "banner":
@@ -159,19 +151,14 @@ class _BleepyLauncherScreenState extends State<BleepyLauncherScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         bottom: false,
-        child: PopScope(
-            canPop: false,
-            onPopInvoked: (bool didPop) async {
-              if (didPop) {
-                return;
-              }
-              if (await goBack() && context.mounted) {
-                Navigator.pop(context);
-              }
-            },
-            child: WebViewWidget(controller: _webViewController!)));
+        child: WebViewWidget( controller: _webViewController!));
   }
 }

@@ -1,3 +1,5 @@
+import 'package:bleepy_flutter_example/configs/env_config.dart';
+import 'package:bleepy_flutter_example/models/launcher_urls_model.dart';
 import 'package:bleepy_flutter_example/screens/bleepy_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,37 +18,32 @@ class ImgScreen extends StatefulWidget {
 }
 
 class _ImgScreenState extends State<ImgScreen> {
+  EnvConfig envConfig = EnvConfig();
 
   @override
   Widget build(BuildContext context) {
+    final LauncherUrlsModel launcherUrls = envConfig.getLauncherUrl(widget.userkey);
+    print('launcherUrls: $launcherUrls');
     return SafeArea(
         bottom: false,
         child: Scaffold(
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
             body: Stack(
               children: <Widget>[
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/ios_bg.png'),
+                      image: AssetImage('assets/images/ios_bg_02.png'),
                       fit: BoxFit.fill,
                     ),
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.65,
-                  left: MediaQuery.of(context).size.width * 0.40,
+                  top: MediaQuery.of(context).size.height * 0.70,
+                  left: MediaQuery.of(context).size.width * 0.25,
                   child: Container(
-                    width: 80,
+                    width: 60,
                     height: 100,
                     color: Colors.transparent,
                     child: InkWell(
@@ -54,7 +51,7 @@ class _ImgScreenState extends State<ImgScreen> {
                         Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: 'https://stg-launcher.bleepy.net?userKey=${widget.userkey}&secretKey=4016743cb708ad820c588a15283ec4def587a5f50865581eae68417200e016a8&platform=flutter&cycle=0'),
+                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: launcherUrls.cowUrl), // 소키우기
                               transitionDuration: const Duration(seconds: 0),
                             )
                         );
@@ -66,10 +63,10 @@ class _ImgScreenState extends State<ImgScreen> {
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.65,
-                  right: MediaQuery.of(context).size.width * 0.13,
+                  top: MediaQuery.of(context).size.height * 0.70,
+                  left: MediaQuery.of(context).size.width * 0.45,
                   child: Container(
-                    width: 80,
+                    width: 60,
                     height: 100,
                     color: Colors.transparent,
                     child: InkWell(
@@ -77,7 +74,30 @@ class _ImgScreenState extends State<ImgScreen> {
                         Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: 'https://stg-launcher.bleepy.net?userKey=${widget.userkey}&secretKey=311737cc3e0602f9942be4ce133f6b3981991adcca2326c5bdf603f55c78a842&platform=flutter'),
+                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: launcherUrls.coffeeUrl), // 커피콩키우기
+                              transitionDuration: const Duration(seconds: 0),
+                            )
+                        );
+                      },
+                      child: Container(
+                        // 필요한 경우 추가 스타일링
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.70,
+                  right: MediaQuery.of(context).size.width * 0.18,
+                  child: Container(
+                    width: 60,
+                    height: 100,
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) => BleepyLauncherScreen(launcherUrl: launcherUrls.cardUrl), // 카드게임
                               transitionDuration: const Duration(seconds: 0),
                             )
                         );

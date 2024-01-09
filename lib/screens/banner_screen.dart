@@ -23,12 +23,6 @@ class _BannerScreenState extends State<BannerScreen> {
 
   @override
   void initState() {
-
-    //
-    // print("URL before processing: ${widget.url}");
-    // String target = ensureTrailingSlash(widget.url);
-    // print("URL after processing: $target");
-
     _webViewController = WebViewController()
       ..addJavaScriptChannel(
         'Toaster',
@@ -83,9 +77,6 @@ class _BannerScreenState extends State<BannerScreen> {
 
   @override
   void dispose() {
-    _webViewController?.clearCache();
-    _webViewController = null;
-
     super.dispose();
   }
 
@@ -94,16 +85,6 @@ class _BannerScreenState extends State<BannerScreen> {
     return SafeArea(
         bottom: false,
         child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () async {
-                if (await goBack() && context.mounted) {
-                  Navigator.pop(context);
-                }
-              },
-            ),
-          ),
           body: PopScope(
               canPop: false,
               onPopInvoked: (bool didPop) async {
